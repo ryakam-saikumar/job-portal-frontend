@@ -62,29 +62,31 @@ export default function JobsPage() {
   return (
     <div style={{ minHeight: '100vh', background: 'var(--surface)' }}>
       {/* Hero Banner */}
-      <div style={styles.hero}>
+      <div className="hero">
         <div className="container">
-          <div style={styles.heroInner}>
+          <div className="hero-inner">
             <div>
               <div style={styles.designationBadge}>
                 <span style={styles.designationDot} />
                 Showing jobs for: <strong>{DESIG_LABELS[user?.designation] || user?.designation}</strong>
               </div>
-              <h1 style={styles.heroTitle}>
+              <h1 className="hero-title">
                 {total} Jobs matched<br />
                 <span style={{ color: 'var(--accent)' }}>just for you</span>
               </h1>
-              <p style={styles.heroSub}>Personalized based on your designation and profile</p>
+              <p className="hero-sub">Personalized based on your profile</p>
             </div>
             {/* Search */}
-            <form onSubmit={handleSearch} style={styles.searchForm}>
-              <input
-                className="form-input" style={styles.searchInput}
-                placeholder="Search jobs, companies, skills..."
-                value={searchInput}
-                onChange={e => setSearchInput(e.target.value)}
-              />
-              <button type="submit" className="btn btn-primary" style={styles.searchBtn}>
+            <form onSubmit={handleSearch} className="search-form">
+              <div className="search-input-wrapper">
+                <input
+                  className="form-input" style={{ width: '100%', background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.15)', color: 'white' }}
+                  placeholder="Search jobs, companies, skills..."
+                  value={searchInput}
+                  onChange={e => setSearchInput(e.target.value)}
+                />
+              </div>
+              <button type="submit" className="btn btn-primary" style={{ padding: '10px 24px' }}>
                 🔍 Search
               </button>
             </form>
@@ -93,9 +95,9 @@ export default function JobsPage() {
       </div>
 
       <div className="container" style={{ paddingTop: 32, paddingBottom: 48 }}>
-        <div style={styles.layout}>
+        <div className="jobs-layout">
           {/* Sidebar Filters */}
-          <aside style={styles.sidebar}>
+          <aside className="jobs-sidebar">
             <div className="card" style={{ padding: 24 }}>
               <h3 style={styles.sidebarTitle}>Filters</h3>
               <div className="form-group">
@@ -144,9 +146,9 @@ export default function JobsPage() {
           </aside>
 
           {/* Jobs Grid */}
-          <main style={{ flex: 1, minWidth: 0 }}>
+          <main className="jobs-main">
             {loading ? (
-              <div style={styles.skeletonGrid}>
+              <div className="grid-3">
                 {[...Array(6)].map((_, i) => (
                   <div key={i} className="card" style={{ padding: 24, height: 240 }}>
                     <div className="skeleton" style={{ height: 16, width: '60%', marginBottom: 12 }} />
@@ -171,7 +173,7 @@ export default function JobsPage() {
                     Showing <strong style={{ color: 'var(--ink)' }}>{jobs.length}</strong> of <strong style={{ color: 'var(--ink)' }}>{total}</strong> jobs
                   </span>
                 </div>
-                <div style={styles.jobsGrid}>
+                <div className="grid-3">
                   {jobs.map((job, i) => (
                     <div key={job._id} style={{ animation: `fadeUp 0.3s ease ${i * 0.05}s both` }}>
                       <JobCard job={job} />
@@ -201,23 +203,9 @@ export default function JobsPage() {
 const styles = {
   hero: { background: 'var(--ink)', padding: '48px 0 40px', borderBottom: '1px solid #222' },
   heroInner: { display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', gap: 40, flexWrap: 'wrap' },
-  designationBadge: {
-    display: 'inline-flex', alignItems: 'center', gap: 8, marginBottom: 16,
-    background: 'rgba(255,77,0,0.15)', border: '1px solid rgba(255,77,0,0.3)',
-    padding: '6px 14px', borderRadius: 20, fontSize: 13, color: 'rgba(255,255,255,0.8)',
-  },
-  designationDot: { width: 7, height: 7, borderRadius: '50%', background: 'var(--accent)', animation: 'pulse-dot 2s infinite', display: 'inline-block' },
-  heroTitle: { fontFamily: "'Syne', sans-serif", fontSize: 40, fontWeight: 800, color: 'white', lineHeight: 1.15, marginBottom: 10 },
-  heroSub: { color: 'rgba(255,255,255,0.5)', fontSize: 15 },
-  searchForm: { display: 'flex', gap: 10, flex: '0 0 420px', alignItems: 'flex-end' },
-  searchInput: { flex: 1, background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.15)', color: 'white' },
-  searchBtn: { flexShrink: 0 },
-  layout: { display: 'flex', gap: 28, alignItems: 'flex-start' },
-  sidebar: { width: 240, flexShrink: 0, position: 'sticky', top: 80 },
   sidebarTitle: { fontFamily: "'Syne', sans-serif", fontSize: 16, fontWeight: 700, marginBottom: 20, color: 'var(--ink)' },
   filterGroup: { display: 'flex', flexDirection: 'column' },
   resultsHeader: { marginBottom: 16, display: 'flex', justifyContent: 'space-between', alignItems: 'center' },
-  skeletonGrid: { display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: 20 },
   jobsGrid: { display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: 20 },
   pagination: { display: 'flex', gap: 8, justifyContent: 'center', marginTop: 32, flexWrap: 'wrap' },
 };

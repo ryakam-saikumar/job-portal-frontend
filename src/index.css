@@ -176,12 +176,91 @@ textarea.form-input { resize: vertical; min-height: 100px; }
 /* Grid */
 .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
 .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-@media (max-width: 768px) {
-  .grid-2, .grid-3 { grid-template-columns: 1fr; }
+
+/* Desktop only vs Mobile only */
+.desktop-only { display: flex !important; }
+.mobile-only { display: none !important; }
+
+@media (max-width: 1024px) {
+  .grid-3 { grid-template-columns: repeat(2, 1fr); }
 }
 
-/* Responsive */
+@media (max-width: 768px) {
+  .grid-2, .grid-3 { grid-template-columns: 1fr; }
+  .desktop-only { display: none !important; }
+  .mobile-only { display: flex !important; }
+  
+  h1 { font-size: 28px !important; }
+  h2 { font-size: 24px !important; }
+  h3 { font-size: 20px !important; }
+}
+
+/* Responsive Container */
 @media (max-width: 640px) {
   .container { padding: 0 16px; }
   .btn-lg { padding: 12px 20px; font-size: 15px; }
+  .grid-2, .grid-3 { gap: 16px; }
+}
+
+/* Utility for hidden elements */
+.hidden { display: none !important; }
+
+/* Hamburger Menu Icon */
+.hamburger {
+  display: flex; flex-direction: column; gap: 4px; border: none; background: none; padding: 4px;
+}
+.hamburger span { width: 20px; height: 2px; background: var(--ink); border-radius: 2px; transition: 0.2s; }
+.hamburger.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity: 0; }
+.hamburger.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+/* Mobile Nav Overlay */
+.mobile-nav-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.4); backdrop-filter: blur(4px);
+  z-index: 1000; animation: fadeIn 0.2s ease;
+}
+.mobile-nav-content {
+  position: fixed; top: 0; right: 0; bottom: 0; width: 280px; 
+  background: white; z-index: 1001; padding: 24px;
+  display: flex; flex-direction: column; gap: 20px;
+  box-shadow: -4px 0 20px rgba(0,0,0,0.1);
+  animation: slideInRight 0.3s ease;
+}
+
+/* Jobs Page Specific */
+.hero { background: var(--ink); padding: 48px 0 40px; border-bottom: 1px solid #222; }
+.hero-inner { display: flex; justify-content: space-between; align-items: flex-end; gap: 40px; flex-wrap: wrap; }
+.hero-title { font-family: 'Syne', sans-serif; font-size: 40px; font-weight: 800; color: white; line-height: 1.15; margin-bottom: 10px; }
+.hero-sub { color: rgba(255,255,255,0.5); font-size: 15px; }
+
+.search-form { display: flex; gap: 10px; flex: 0 0 420px; align-items: flex-end; }
+.search-input-wrapper { flex: 1; }
+
+.jobs-layout { display: flex; gap: 28px; align-items: flex-start; }
+.jobs-sidebar { width: 240px; flex-shrink: 0; position: sticky; top: 80px; }
+.jobs-main { flex: 1; min-width: 0; }
+
+/* Auth Pages */
+.auth-page { display: flex; min-height: 100vh; }
+.auth-left { flex: 1; background: var(--ink); display: flex; align-items: center; justify-content: center; padding: 60px; position: relative; overflow: hidden; }
+.auth-right { width: 480px; display: flex; align-items: center; justify-content: center; padding: 40px; background: var(--surface); }
+
+/* Job Detail Page */
+.detail-layout { display: flex; gap: 28px; align-items: flex-start; }
+.detail-sidebar { width: 280px; flex-shrink: 0; position: sticky; top: 80px; }
+
+@media (max-width: 1024px) {
+  .jobs-layout, .detail-layout { flex-direction: column; }
+  .jobs-sidebar, .detail-sidebar { width: 100%; position: static; }
+  .search-form { flex: 1 1 100%; }
+}
+
+@media (max-width: 768px) {
+  .hero-inner { flex-direction: column; align-items: stretch; gap: 24px; }
+  .hero-title { font-size: 32px; }
+  .search-form { flex-direction: column; align-items: stretch; }
+  
+  .auth-page { flex-direction: column; }
+  .auth-left { display: none; }
+  .auth-right { width: 100%; padding: 32px 16px; min-height: 100vh; }
 }

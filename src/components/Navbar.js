@@ -14,17 +14,35 @@ export default function Navbar() {
   const location = useLocation();
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   if (!user) return null;
 
   const isAdmin = user.role === 'admin' || user.role === 'recruiter';
   const isActive = (path) => location.pathname === path || location.pathname.startsWith(path + '/');
 
-  const handleLogout = () => { logout(); navigate('/login'); };
+  const handleLogout = () => { logout(); navigate('/login'); setMobileMenuOpen(false); };
+
+  const navLinks = isAdmin ? [
+    { to: '/admin', label: 'Dashboard', active: location.pathname === '/admin' },
+    { to: '/admin/post-job', label: 'Post Job', active: isActive('/admin/post-job') }
+  ] : [
+    { to: '/jobs', label: 'Browse Jobs', active: location.pathname === '/jobs' },
+    { to: '/my-applications', label: 'My Applications', active: isActive('/my-applications') }
+  ];
 
   return (
     <nav style={styles.nav}>
       <div className="container" style={styles.inner}>
+        {/* Mobile: Hamburger */}
+        <button 
+          className={`hamburger mobile-only ${mobileMenuOpen ? 'open' : ''}`}
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          aria-label="Toggle menu"
+        >
+          <span></span><span></span><span></span>
+        </button>
+
         {/* Logo */}
         <Link to={isAdmin ? '/admin' : '/jobs'} style={styles.logo}>
           <span style={styles.logoIcon}>◈</span>
@@ -32,31 +50,23 @@ export default function Navbar() {
         </Link>
 
         {/* Desktop Links */}
-        <div style={styles.links}>
-          {isAdmin ? (
-            <>
-              <NavLink to="/admin" label="Dashboard" active={location.pathname === '/admin'} />
-              <NavLink to="/admin/post-job" label="Post Job" active={isActive('/admin/post-job')} />
-            </>
-          ) : (
-            <>
-              <NavLink to="/jobs" label="Browse Jobs" active={location.pathname === '/jobs'} />
-              <NavLink to="/my-applications" label="My Applications" active={isActive('/my-applications')} />
-            </>
-          )}
+        <div className="desktop-only" style={styles.links}>
+          {navLinks.map(link => (
+            <NavLink key={link.to} {...link} />
+          ))}
         </div>
 
         {/* Right side */}
         <div style={styles.right}>
           <div style={styles.userChip} onClick={() => setMenuOpen(!menuOpen)}>
             <div style={styles.avatar}>{user.name.charAt(0).toUpperCase()}</div>
-            <div style={styles.userInfo}>
+            <div className="desktop-only" style={styles.userInfo}>
               <span style={styles.userName}>{user.name}</span>
               <span style={styles.userRole}>
                 {isAdmin ? (user.role === 'admin' ? '⚡ Admin' : '🏢 Recruiter') : `${DESIGNATION_LABELS[user.designation] || user.designation}`}
               </span>
             </div>
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" style={{ transform: menuOpen ? 'rotate(180deg)' : 'none', transition: '0.2s' }}>
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" style={{ transform: menuOpen ? 'rotate(180deg)' : 'none', transition: '0.2s', marginLeft: 4 }}>
               <path d="M2 4l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
           </div>
@@ -74,6 +84,58 @@ export default function Navbar() {
           )}
         </div>
       </div>
+
+      {/* Mobile Menu Overlay */}
+      {mobileMenuOpen && (
+        <>
+          <div className="mobile-nav-overlay" onClick={() => setMobileMenuOpen(false)} />
+          <div className="mobile-nav-content">
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
+              <Link to="/" style={styles.logo} onClick={() => setMobileMenuOpen(false)}>
+                <span style={styles.logoIcon}>◈</span>
+                <span>Hire<b>Bridge</b></span>
+              </Link>
+              <button 
+                className="hamburger open"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                <span></span><span></span><span></span>
+              </button>
+            </div>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 12 }}>
+              <p style={{ fontSize: 12, fontWeight: 700, color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 4 }}>Navigation</p>
+              {navLinks.map(link => (
+                <Link 
+                  key={link.to}
+                  to={link.to} 
+                  style={{ 
+                    ...styles.navLink, 
+                    ...(link.active ? styles.navLinkActive : {}),
+                    padding: '12px 14px',
+                    fontSize: 16
+                  }}
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </div>
+
+            <div style={{ marginTop: 'auto', padding: '20px', background: 'var(--surface)', borderRadius: 16 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16 }}>
+                <div style={{ ...styles.avatar, width: 44, height: 44, fontSize: 18 }}>{user.name.charAt(0).toUpperCase()}</div>
+                <div>
+                  <div style={{ fontSize: 15, fontWeight: 700 }}>{user.name}</div>
+                  <div style={{ fontSize: 12, color: 'var(--muted)' }}>{user.email}</div>
+                </div>
+              </div>
+              <Link to="/profile" className="btn btn-outline" style={{ width: '100%', marginBottom: 10 }} onClick={() => setMobileMenuOpen(false)}>View Profile</Link>
+              <button onClick={handleLogout} className="btn btn-danger" style={{ width: '100%' }}>Sign Out</button>
+            </div>
+          </div>
+        </>
+      )}
     </nav>
   );
 }
@@ -89,7 +151,7 @@ function NavLink({ to, label, active }) {
 
 const styles = {
   nav: {
-    background: 'white', borderBottom: '1px solid var(--border)',
+    background: 'rgba(255, 255, 255, 0.8)', borderBottom: '1px solid var(--border)',
     position: 'sticky', top: 0, zIndex: 100,
     backdropFilter: 'blur(10px)',
   },
@@ -114,7 +176,7 @@ const styles = {
   right: { marginLeft: 'auto', position: 'relative' },
   userChip: {
     display: 'flex', alignItems: 'center', gap: 10,
-    padding: '6px 12px', borderRadius: 40,
+    padding: '6px 6px 6px 12px', borderRadius: 40,
     border: '1px solid var(--border)', cursor: 'pointer',
     transition: 'all 0.2s', background: 'var(--surface)',
   },

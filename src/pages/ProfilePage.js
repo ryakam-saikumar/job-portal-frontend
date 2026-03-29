@@ -70,9 +70,9 @@ export default function ProfilePage() {
       <div className="container" style={{ paddingTop: 32 }}>
         <div style={{ display: 'flex', gap: 28, alignItems: 'flex-start', flexWrap: 'wrap' }}>
           {/* Left: Edit Form */}
-          <div style={{ flex: 1, minWidth: 320 }}>
-            <div className="card" style={{ padding: 32, marginBottom: 24 }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 28 }}>
+          <div style={{ flex: 1, minWidth: 'min(100%, 320px)' }}>
+            <div className="card" style={{ padding: '24px 32px', marginBottom: 24 }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 28, flexWrap: 'wrap', gap: 12 }}>
                 <h2 style={styles.sectionTitle}>Profile Details</h2>
                 {!editing ? (
                   <button className="btn btn-outline btn-sm" onClick={() => setEditing(true)}>✏️ Edit Profile</button>
@@ -92,7 +92,7 @@ export default function ProfilePage() {
                     <label className="form-label">Full Name</label>
                     <input className="form-input" value={form.name} onChange={e => setForm(p => ({ ...p, name: e.target.value }))} />
                   </div>
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+                  <div className="grid-2">
                     <div className="form-group">
                       <label className="form-label">Designation</label>
                       <select className="form-input" value={form.designation} onChange={e => setForm(p => ({ ...p, designation: e.target.value }))}>
@@ -100,7 +100,7 @@ export default function ProfilePage() {
                       </select>
                     </div>
                     <div className="form-group">
-                      <label className="form-label">Years of Experience</label>
+                      <label className="form-label">Experience (Years)</label>
                       <input type="number" className="form-input" min="0" max="40" value={form.experience}
                         onChange={e => setForm(p => ({ ...p, experience: e.target.value }))} />
                     </div>
@@ -124,7 +124,7 @@ export default function ProfilePage() {
               ) : (
                 <div style={styles.profileView}>
                   <ProfileRow label="Email" value={u?.email} icon="📧" />
-                  <ProfileRow label="Designation" value={currentDesig?.label} icon="💼" />
+                  <ProfileRow label="Designation" value={currentDesig?.label || u?.designation} icon="💼" />
                   <ProfileRow label="Experience" value={`${u?.experience} years`} icon="⏱" />
                   <ProfileRow label="Location" value={u?.location || 'Not specified'} icon="📍" />
                   <ProfileRow label="Bio" value={u?.bio || 'No bio added yet'} icon="📝" />
@@ -133,7 +133,7 @@ export default function ProfilePage() {
             </div>
 
             {/* Skills Card */}
-            <div className="card" style={{ padding: 32 }}>
+            <div className="card" style={{ padding: '24px 32px' }}>
               <h2 style={{ ...styles.sectionTitle, marginBottom: 20 }}>Skills</h2>
               {u?.skills?.length > 0 ? (
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
@@ -150,7 +150,7 @@ export default function ProfilePage() {
           </div>
 
           {/* Right: Sidebar */}
-          <div style={{ width: 280, flexShrink: 0 }}>
+          <div style={{ width: 'min(100%, 280px)', flexShrink: 0 }}>
             {/* Profile Completion */}
             <div className="card" style={{ padding: 24, marginBottom: 20 }}>
               <h3 style={styles.sidebarTitle}>Profile Strength</h3>

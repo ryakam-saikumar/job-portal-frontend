@@ -37,8 +37,8 @@ export default function LoginPage() {
   };
 
   return (
-    <div style={styles.page}>
-      <div style={styles.left}>
+    <div className="auth-page">
+      <div className="auth-left desktop-only">
         <div style={styles.leftContent}>
           <div style={styles.logoMark}>◈</div>
           <h1 style={styles.heroTitle}>Find your next<br /><span style={{ color: 'var(--accent)' }}>great role.</span></h1>
@@ -54,11 +54,14 @@ export default function LoginPage() {
         </div>
       </div>
 
-      <div style={styles.right}>
-        <div style={styles.formBox} className="fade-up">
-          <div style={styles.formHeader}>
-            <h2 style={styles.formTitle}>Sign in</h2>
-            <p style={styles.formSub}>Welcome back to HireBridge</p>
+      <div className="auth-right">
+        <div className="auth-form-box fade-up">
+          <div className="auth-form-header">
+            <div className="mobile-only" style={{ marginBottom: 20 }}>
+              <div className="auth-logo" style={{ fontSize: 32, marginBottom: 12 }}>◈</div>
+            </div>
+            <h2 className="auth-form-title">Sign in</h2>
+            <p className="auth-form-sub">Welcome back to HireBridge</p>
           </div>
 
           <form onSubmit={handleSubmit}>

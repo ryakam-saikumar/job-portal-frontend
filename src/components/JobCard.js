@@ -105,21 +105,21 @@ export default function JobCard({ job, showActions, onEdit, onDelete, onViewApps
       )}
 
       {/* Footer */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: 12, borderTop: '1px solid var(--border)' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: 12, borderTop: '1px solid var(--border)', flexWrap: 'wrap', gap: 12 }}>
         <span style={{ fontSize: 12, color: 'var(--muted)' }}>
           {daysAgo(job.createdAt)} · {job.applicationsCount} applicants
         </span>
-        <div style={{ display: 'flex', gap: 8 }}>
+        <div style={{ display: 'flex', gap: 8, width: 'min(100%, 100%)' }}>
           {showActions ? (
-            <>
+            <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
               <button className="btn btn-outline btn-sm" onClick={() => onViewApps(job._id)}>
                 👥 {job.applicationsCount}
               </button>
               <button className="btn btn-outline btn-sm" onClick={() => onEdit(job._id)}>✏️ Edit</button>
               <button className="btn btn-danger btn-sm" onClick={() => onDelete(job._id)}>🗑</button>
-            </>
+            </div>
           ) : (
-            <Link to={`/jobs/${job._id}`} className="btn btn-primary btn-sm">
+            <Link to={`/jobs/${job._id}`} className="btn btn-primary btn-sm" style={{ flex: 1 }}>
               View Job →
             </Link>
           )}

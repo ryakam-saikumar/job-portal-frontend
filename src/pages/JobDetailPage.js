@@ -65,11 +65,11 @@ export default function JobDetailPage() {
       </div>
 
       <div className="container" style={{ paddingTop: 32 }}>
-        <div style={styles.layout}>
+        <div className="detail-layout">
           {/* Main Content */}
           <main style={{ flex: 1, minWidth: 0 }}>
             {/* Job Header Card */}
-            <div className="card" style={{ padding: 36, marginBottom: 24 }}>
+            <div className="card" style={{ padding: '24px 32px', marginBottom: 24 }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 20, flexWrap: 'wrap', marginBottom: 24 }}>
                 <div style={{ display: 'flex', gap: 16, alignItems: 'flex-start' }}>
                   <div style={{
@@ -96,7 +96,7 @@ export default function JobDetailPage() {
               </div>
 
               {/* Quick stats row */}
-              <div style={styles.statsRow}>
+              <div style={styles.statsRow} className="grid-3">
                 <StatItem icon="📍" label="Location" value={job.location} />
                 <StatItem icon="⏱" label="Job Type" value={TYPE_LABELS[job.type]} />
                 <StatItem icon="💰" label="Salary" value={formatSalary(job.salary)} />
@@ -107,14 +107,14 @@ export default function JobDetailPage() {
             </div>
 
             {/* Description */}
-            <div className="card" style={{ padding: 36, marginBottom: 24 }}>
+            <div className="card" style={{ padding: '24px 32px', marginBottom: 24 }}>
               <h2 style={styles.sectionTitle}>Job Description</h2>
               <p style={{ color: 'var(--muted)', lineHeight: 1.8, whiteSpace: 'pre-wrap', fontSize: 15 }}>{job.description}</p>
             </div>
 
             {/* Requirements */}
             {job.requirements?.length > 0 && (
-              <div className="card" style={{ padding: 36, marginBottom: 24 }}>
+              <div className="card" style={{ padding: '24px 32px', marginBottom: 24 }}>
                 <h2 style={styles.sectionTitle}>Requirements</h2>
                 <ul style={{ paddingLeft: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 10 }}>
                   {job.requirements.map((r, i) => (
@@ -129,7 +129,7 @@ export default function JobDetailPage() {
 
             {/* Skills Required */}
             {job.skills?.length > 0 && (
-              <div className="card" style={{ padding: 36 }}>
+              <div className="card" style={{ padding: '24px 32px' }}>
                 <h2 style={styles.sectionTitle}>Required Skills</h2>
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
                   {job.skills.map(s => (
@@ -141,7 +141,7 @@ export default function JobDetailPage() {
           </main>
 
           {/* Sidebar */}
-          <aside style={styles.sidebar}>
+          <aside className="detail-sidebar">
             <div className="card" style={{ padding: 24, marginBottom: 20 }}>
               <h3 style={{ fontFamily: "'Syne', sans-serif", fontSize: 14, fontWeight: 700, marginBottom: 16, color: 'var(--ink)' }}>
                 TARGET DESIGNATIONS

@@ -42,12 +42,12 @@ export default function AdminDashboard() {
       {/* Header */}
       <div style={styles.header}>
         <div className="container">
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', gap: 20, flexWrap: 'wrap' }}>
             <div>
               <h1 style={styles.headerTitle}>Admin Dashboard</h1>
               <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 14 }}>Manage jobs and applications from one place</p>
             </div>
-            <Link to="/admin/post-job" className="btn btn-primary btn-lg">
+            <Link to="/admin/post-job" className="btn btn-primary" style={{ padding: '12px 24px' }}>
               + Post New Job
             </Link>
           </div>
@@ -57,24 +57,24 @@ export default function AdminDashboard() {
       <div className="container" style={{ paddingTop: 32 }}>
         {/* Stats Cards */}
         {loading ? (
-          <div style={styles.statsGrid}>
+          <div className="grid-3" style={{ marginBottom: 32 }}>
             {[...Array(4)].map((_, i) => <div key={i} className="skeleton" style={{ height: 110, borderRadius: 16 }} />)}
           </div>
         ) : stats && (
-          <div style={styles.statsGrid}>
+          <div className="grid-2" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 20, marginBottom: 32 }}>
             <StatCard icon="💼" label="Active Jobs" value={stats.totalJobs} color="var(--accent)" />
             <StatCard icon="👤" label="Job Seekers" value={stats.totalUsers} color="var(--accent-2)" />
-            <StatCard icon="📋" label="Total Applications" value={stats.totalApplications} color="var(--success)" />
+            <StatCard icon="📋" label="Total Apps" value={stats.totalApplications} color="var(--success)" />
             <StatCard icon="✅" label="Hired" value={stats.applicationsByStatus?.find(s => s._id === 'hired')?.count || 0} color="#7c3aed" />
           </div>
         )}
 
         {/* Tabs */}
-        <div style={styles.tabs}>
+        <div style={{ ...styles.tabs, overflowX: 'auto', paddingBottom: 4 }}>
           {['overview', 'jobs', 'activity'].map(t => (
             <button key={t} className={`btn btn-sm ${activeTab === t ? 'btn-secondary' : 'btn-ghost'}`}
-              onClick={() => setActiveTab(t)} style={{ textTransform: 'capitalize' }}>
-              {t === 'overview' ? '📊 Overview' : t === 'jobs' ? '💼 My Jobs' : '🔔 Recent Activity'}
+              onClick={() => setActiveTab(t)} style={{ textTransform: 'capitalize', whiteSpace: 'nowrap' }}>
+              {t === 'overview' ? '📊 Overview' : t === 'jobs' ? '💼 My Jobs' : '🔔 Activity'}
             </button>
           ))}
         </div>
